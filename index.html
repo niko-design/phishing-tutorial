@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phishing Awareness Tutorial</title>
+
+  <!-- Link to external stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- WELCOME SCREEN
+       Shown first before scenario begins.
+       Gives participants a brief intro -->
+  <div id="welcome-screen" class="screen active">
+    <div class="card">
+      <h1>Phishing Awareness Tutorial</h1>
+      <p>
+        In this tutorial you will be shown <strong>three emails</strong>.
+        Your task is to examine each email carefully, click the highlighted
+        elements to learn about phishing indicators, then decide what to do.
+      </p>
+      <p>Each email is more difficult than the last. Please take your time.</p>
+      <button id="start-btn" class="btn-primary">Start Tutorial</button>
+    </div>
+  </div>
+
+
+  <!-- SCENARIO INTRO SCREENS
+      Scenarios have a brief context screen shown before
+      the email is displayed, explaining setting. -->
+
+  <!-- Scenario 1 Intro -->
+  <div id="intro-1" class="screen">
+    <div class="card">
+      <p class="scenario-label">Scenario 1 of 3 — Low Difficulty</p>
+      <h2>IT Password Reset</h2>
+      <p>
+        You have received the following email in your university inbox.
+        Click the <strong>highlighted elements</strong> to examine them,
+        then decide whether to <strong>Click</strong>, <strong>Report</strong>,
+        or <strong>Ignore</strong> the email.
+      </p>
+      <button class="btn-primary next-intro" data-target="scenario-1">View Email</button>
+    </div>
+  </div>
+
+  <!-- Scenario 2 Intro -->
+  <div id="intro-2" class="screen">
+    <div class="card">
+      <p class="scenario-label">Scenario 2 of 3 — Medium Difficulty</p>
+      <h2>Financial Aid Notification</h2>
+      <p>
+        You have received the following email in your university inbox.
+        Click the <strong>highlighted elements</strong> to examine them,
+        then decide whether to <strong>Click</strong>, <strong>Report</strong>,
+        or <strong>Ignore</strong> the email.
+      </p>
+      <button class="btn-primary next-intro" data-target="scenario-2">View Email</button>
+    </div>
+  </div>
+
+  <!-- Scenario 3 Intro -->
+  <div id="intro-3" class="screen">
+    <div class="card">
+      <p class="scenario-label">Scenario 3 of 3 — High Difficulty</p>
+      <h2>Lecturer Communication</h2>
+      <p>
+        You have received the following email in your university inbox.
+        Click the <strong>highlighted elements</strong> to examine them,
+        then decide whether to <strong>Click</strong>, <strong>Report</strong>,
+        or <strong>Ignore</strong> the email.
+      </p>
+      <button class="btn-primary next-intro" data-target="scenario-3">View Email</button>
+    </div>
+  </div>
+
+
+  <!-- SCENARIO SCREENS
+       Each scenario displays an email interface.
+       Hotspot elements are highlighted to click.
+       Response buttons display after all hotspots are viewed. -->
+
+  <!-- Scenario 1 Email -->
+  <div id="scenario-1" class="screen">
+    <div class="email-container">
+
+      <!-- Email header bar impersonating an email client -->
+      <div class="email-header">
+        <div class="email-field">
+          <span class="field-label">From:</span>
+          <!-- Hotspot: sender address is suspicious -->
+          <span class="hotspot" data-id="s1-sender">
+            it-support@northumbria-helpdesk.net
+          </span>
+        </div>
+        <div class="email-field">
+          <span class="field-label">To:</span>
+          <span>student@northumbria.ac.uk</span>
+        </div>
+        <div class="email-field">
+          <span class="field-label">Subject:</span>
+          <!-- Hotspot: urgent subject line is a red flag -->
+          <span class="hotspot" data-id="s1-subject">
+            URGENT: Your password expires in 24 hours
+          </span>
+        </div>
+        <div class="email-field">
+          <span class="field-label">Date:</span>
+          <span>10 April 2026, 08:43</span>
+        </div>
+      </div>
+
+      <!-- Email body -->
+      <div class="email-body">
+        <p>Dear Student,</p>
+        <p>
+          Our system has detected that your university account password will
+          expire within <strong>24 hours</strong>. Failure to update your
+          password immediately will result in loss of access to your university
+          systems including email, Blackboard, and the library portal.
+        </p>
+        <p>Please click the link below to reset your password now:</p>
+        <!-- Hotspot: suspicious link -->
+        <p>
+          <span class="hotspot link-hotspot" data-id="s1-link">
+            http://northumbria-reset.com/password-update
+          </span>
+        </p>
+        <p>
+          If you do not reset your password within 24 hours your account
+          will be suspended.
+        </p>
+        <p>Regards,<br/>IT Support Team</p>
+      </div>
+
+      <!-- Response buttons — hidden until all hotspots viewed.
+           All buttons use btn-neutral so no colour hints at
+           the correct answer before the participant decides. -->
+      <div class="response-area" id="response-1">
+        <p class="response-prompt">What do you do with this email?</p>
+        <div class="response-buttons">
+          <button class="btn-neutral respond-btn" data-scenario="1" data-choice="click">Click the Link</button>
+          <button class="btn-neutral respond-btn" data-scenario="1" data-choice="report">Report</button>
+          <button class="btn-neutral respond-btn" data-scenario="1" data-choice="ignore">Ignore</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Scenario 2 Email -->
+  <div id="scenario-2" class="screen">
+    <div class="email-container">
+
+      <div class="email-header">
+        <div class="email-field">
+          <span class="field-label">From:</span>
+          <!-- Hotspot: domain resembles university but isn't -->
+          <span class="hotspot" data-id="s2-sender">
+            financialaid@northurnbria.ac.uk
+          </span>
+        </div>
+        <div class="email-field">
+          <span class="field-label">To:</span>
+          <span>j.smith@northumbria.ac.uk</span>
+        </div>
+        <div class="email-field">
+          <span class="field-label">Subject:</span>
+          <span>Action Required: Financial Aid Payment — Confirm Your Details</span>
+        </div>
+        <div class="email-field">
+          <span class="field-label">Date:</span>
+          <span>10 April 2026, 11:15</span>
+        </div>
+      </div>
+
+      <div class="email-body">
+        <p>Dear Jamie,</p>
+        <p>
+          We are pleased to inform you your financial aid payment for
+          the current academic year is ready for processing. To ensure payment on time
+          please confirm your bank account details using the secure portal
+          before <strong>Friday 12 April 2026</strong>.
+        </p>
+        <p>
+          Please use the link below to access the secure confirmation portal:
+        </p>
+        <!-- Hotspot: link text doesn't match actual URL -->
+        <p>
+          <span class="hotspot link-hotspot" data-id="s2-link">
+            Click here to confirm your details securely
+          </span>
+        </p>
+        <p>
+          If you do not confirm your details by the deadline your payment
+          may be delayed by up to 6 weeks.
+        </p>
+        <p>Kind regards,<br/>Student Financial Aid Office<br/>Northumbria University</p>
+      </div>
+
+      <!-- All buttons neutral — no colour hints at correct answer -->
+      <div class="response-area" id="response-2">
+        <p class="response-prompt">What do you do with this email?</p>
+        <div class="response-buttons">
+          <button class="btn-neutral respond-btn" data-scenario="2" data-choice="click">Click the Link</button>
+          <button class="btn-neutral respond-btn" data-scenario="2" data-choice="report">Report</button>
+          <button class="btn-neutral respond-btn" data-scenario="2" data-choice="ignore">Ignore</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Scenario 3 Email -->
+  <div id="scenario-3" class="screen">
+    <div class="email-container">
+
+      <div class="email-header">
+        <div class="email-field">
+          <span class="field-label">From:</span>
+          <!-- Hotspot: display name looks legitimate but domain is incorrect -->
+          <span class="hotspot" data-id="s3-sender">
+            Dr. Sarah Mitchell &lt;s.mitchell@northumbr1a.ac.uk&gt;
+          </span>
+        </div>
+        <div class="email-field">
+          <span class="field-label">To:</span>
+          <span>j.smith@northumbria.ac.uk</span>
+        </div>
+        <div class="email-field">
+          <span class="field-label">Subject:</span>
+          <span>KV6013 — Assignment Feedback Document</span>
+        </div>
+        <div class="email-field">
+          <span class="field-label">Date:</span>
+          <span>10 April 2026, 14:02</span>
+        </div>
+      </div>
+
+      <div class="email-body">
+        <p>Hi Jamie,</p>
+        <p>
+          I have finished the review of your project submission and have put
+          together detailed feedback notes for you. Please find the
+          document via the shared link below — you will need to sign in
+          with your university credentials to access it.
+        </p>
+        <!-- Hotspot: anchor text looks safe but hides malicious URL -->
+        <p>
+          <span class="hotspot link-hotspot" data-id="s3-link">
+            KV6013_Feedback_JSmith.docx
+          </span>
+        </p>
+        <p>
+          Let me know if you have any questions after reading through.
+        </p>
+        <p>Best,<br/>Dr. Sarah Mitchell<br/>Module Leader, KV6013</p>
+      </div>
+
+      <!-- All buttons neutral — no colour hints at correct answer -->
+      <div class="response-area" id="response-3">
+        <p class="response-prompt">What do you do with this email?</p>
+        <div class="response-buttons">
+          <button class="btn-neutral respond-btn" data-scenario="3" data-choice="click">Click the Link</button>
+          <button class="btn-neutral respond-btn" data-scenario="3" data-choice="report">Report</button>
+          <button class="btn-neutral respond-btn" data-scenario="3" data-choice="ignore">Ignore</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- FEEDBACK SCREENS
+       Displayed after the participant chooses a response.
+       Explains whether choice was correct and why.
+       One feedback screen per scenario. -->
+  <div id="feedback-1" class="screen">
+    <div class="card" id="feedback-1-content">
+      <!-- Content injected dynamically using script.js -->
+    </div>
+  </div>
+
+  <div id="feedback-2" class="screen">
+    <div class="card" id="feedback-2-content">
+    </div>
+  </div>
+
+  <div id="feedback-3" class="screen">
+    <div class="card" id="feedback-3-content">
+    </div>
+  </div>
+
+
+  <!-- POP-UP MODAL
+       Appears when hotspot element is clicked.
+       Content is injected dynamically by script.js based on
+       what hotspot was clicked. -->
+  <div id="modal-overlay" class="hidden">
+    <div id="modal-box">
+      <h3 id="modal-title">Phishing Indicator</h3>
+      <p id="modal-body"></p>
+      <button id="modal-close" class="btn-primary">Got it</button>
+    </div>
+  </div>
+
+
+  <!-- COMPLETION SCREEN
+       Displayed after all three scenarios are finished. -->
+  <div id="completion-screen" class="screen">
+    <div class="card">
+      <h2>Tutorial Complete</h2>
+      <p>
+        Well done for completing all scenarios. You can now complete
+        the post-tutorial questionnaire using the link provided.
+      </p>
+    </div>
+  </div>
+
+
+  <!-- Link to external JavaScript file — added at the end so all
+       HTML elements are loaded before the script runs -->
+  <script src="script.js"></script>
+
+</body>
+</html>

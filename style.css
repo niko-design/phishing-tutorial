@@ -1,0 +1,316 @@
+/* 
+Global reset and Base styles 
+removes default spacing sets clean font and background for tutorial
+*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+
+/* Screen management
+   Screen with class 'active' is visible
+   JavaScript adds/removes 'active' to control navigation 
+*/
+.screen {
+  display: none;
+  width: 100%;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.screen.active {
+  display: block;
+}
+
+
+/* Card
+   White rounded container used for welcome, intro,
+   feedback and completion screen */
+.card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card h1 {
+  font-size: 1.8rem;
+  margin-bottom: 16px;
+  color: #1a1a2e;
+}
+
+.card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  color: #1a1a2e;
+}
+
+.card p {
+  line-height: 1.7;
+  margin-bottom: 14px;
+  color: #444;
+}
+
+/* Label shown above scenario title e.g. "Scenario 1 of 3" */
+.scenario-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px !important;
+}
+
+
+/* Button styles
+   Primary = blue for navigation
+   Success = green for report action
+   Danger = red for click the link action
+   Neutral = grey for ignore action */
+.btn-primary {
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-success {
+  background-color: #16a34a;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-success:hover {
+  background-color: #15803d;
+}
+
+.btn-danger {
+  background-color: #dc2626;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+}
+
+.btn-neutral {
+  background-color: #6b7280;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-neutral:hover {
+  background-color: #4b5563;
+}
+
+
+/* Email container
+   Wraps email interface.
+   Resembles standard email client. */
+.email-container {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Top bar impersonating email client */
+.email-container::before {
+  content: '📧  University Email';
+  display: block;
+  background-color: #1a1a2e;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+
+/* Email header displays From, To, Subject, Date fields */
+.email-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 16px 24px;
+}
+
+.email-field {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.email-field:last-child {
+  margin-bottom: 0;
+}
+
+.field-label {
+  font-weight: 600;
+  color: #555;
+  min-width: 70px;
+  flex-shrink: 0;
+}
+
+
+/* Email body — main content area */
+.email-body {
+  padding: 24px;
+  line-height: 1.8;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.email-body p {
+  margin-bottom: 14px;
+}
+
+
+/* Hotspots — clickable elements revealing the pop-ups */
+.hotspot {
+  background-color: #fef9c3;
+  border-bottom: 2px dashed #ca8a04;
+  padding: 2px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: inline;
+}
+
+.hotspot:hover {
+  background-color: #fde68a;
+}
+
+/* Once clicked turns green once clicked hotspot */
+.hotspot.viewed {
+  background-color: #dcfce7;
+  border-bottom-color: #16a34a;
+}
+
+/* Styled to look like hyperlinks */
+.link-hotspot {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+
+/* Response area — shown below email once all hotspots viewed */
+.response-area {
+  border-top: 1px solid #e0e0e0;
+  padding: 20px 24px;
+  background-color: #f8f9fa;
+  display: none;
+}
+
+.response-prompt {
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: #1a1a2e;
+}
+
+.response-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+
+/* Modal overlay — pop up box when hotspot is clicked */
+#modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#modal-box {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 32px;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+#modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #dc2626;
+  margin-bottom: 12px;
+}
+
+#modal-body {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+/* Utility class hides elements — toggled by JavaScript */
+.hidden {
+  display: none !important;
+}
+
+
+/* Feedback screens — correct green incorrect red */
+.feedback-correct {
+  border-left: 5px solid #16a34a;
+}
+
+.feedback-incorrect {
+  border-left: 5px solid #dc2626;
+}
+
+.feedback-partial {
+  border-left: 5px solid #ca8a04;
+}
+
+.feedback-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
