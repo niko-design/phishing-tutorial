@@ -7,6 +7,19 @@
     evaluating response and feedback
     progression */
 
+    /* Save current screen so refresh does not allow partcipants to restart and correct answer*/
+    function saveProgress(screenId) {
+        sessionStorage.setItem('curretnScreen', screenId);
+    }
+
+    function resumeProgress() {
+        const saved = sessionStorage.getItem('currentScreen');
+        if (saved) {
+            showScreen(saved);
+        }
+    }
+
+
 /* Hotspot content data 
     each hotspot has unique id (data-id HTML), a title and body. */
 
@@ -265,10 +278,12 @@ const feedbackData = {
 /* Screen navigation utility
 hides all screens, shows only screen with 'active' class*/
 
-function showScreen(screenId) {
-    document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
-    document.getElementById(screenId).classList.add('active');
-    window.scrollTo(0, 0);
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+  // Save current screen so refresh returns here
+  saveProgress(id);
 }
 
 /* Hotspot tracking
@@ -394,6 +409,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const scenario = parseInt(btn.getAttribute('data-scenario'));
             const choice = btn.getAttribute('data-choice');
             showFeedback(scenario, choice);
+             resumeProgress();
         });
     });
 
