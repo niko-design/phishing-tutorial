@@ -9,7 +9,7 @@
 
     /* Save current screen so refresh does not allow partcipants to restart and correct answer*/
     function saveProgress(screenId) {
-        sessionStorage.setItem('curretnScreen', screenId);
+        sessionStorage.setItem('currentScreen', screenId);
     }
 
     function resumeProgress() {
@@ -409,8 +409,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const scenario = parseInt(btn.getAttribute('data-scenario'));
             const choice = btn.getAttribute('data-choice');
             showFeedback(scenario, choice);
-             resumeProgress();
         });
     });
+
+    resumeProgress();
 
 });
