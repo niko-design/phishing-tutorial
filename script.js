@@ -1,5 +1,5 @@
 /* Phishing awareness tutorial - script.js
-    This sciprt controls all interactive behaviour 
+    This scriptcontrols all interactive behaviour 
     navigation
     hotspot click
     tracking whats been viewed
@@ -27,7 +27,7 @@ const hotspotData = {
     "s1-sender": {
         title: "suspicious sender address",
         body: `The sender address is <strong>it-support@northumbria-helpdesk.net</strong>.
-        Your university's real IT departement would email you from an <strong>@northumbria.ac.uk</strong> address.
+        Your university's real IT department would email you from an <strong>@northumbria.ac.uk</strong> address.
         The domain <em>northumbria-helpdesk.net</em> is not an official university domain, 
         this is a common phishing tactic in which attackers register domains that
         resemble official ones.
@@ -40,13 +40,13 @@ const hotspotData = {
     "s1-subject": {
         title: "Urgency in subject line",
         body: `Subject line uses the word <strong>URGENT</strong> and states your password will expire in <strong>24 hours</strong>.
-        This creates a false sense of urgency which is one of teh most common phishing techniques
-        Attackers used urgency to perssure recipients into a quick response acting without
+        This creates a false sense of urgency which is one of the most common phishing techniques
+        Attackers used urgency to pressure recipients into a quick response acting without
         thinking critically, rarely will IT departments send
         urgent subject demanding action immediately.
         <br><br>
         <strong>Protective action</strong>Pause before acting on any email
-        that pressures repsone immediately. Take time to verify senders 
+        that pressures response immediately. Take time to verify senders 
         and check with the IT team directly if unsure.`
     },
 
@@ -59,7 +59,7 @@ const hotspotData = {
         <strong>https</strong> meaning its not even using a strong connection.
         Clicking this link could lead to a fake login page designed to steal credentials.
         <br><br>
-        <strong>Protective action</strong> Never click passowrd reste links in emails.
+        <strong>Protective action</strong> Never click password reste links in emails.
         Go directly to the university website by typing the address
         in your browser. Report this email to IT immediately.`
     },
@@ -85,7 +85,7 @@ const hotspotData = {
         body: `The link displays the text <em>"Click here to confirm your details securely"</em>
         but this text tells you nothing about where the link actually goes.
         In phishing emails, the text visible in a hyperlink often looks
-        reassuring  however the actual destination URL leads to a malicious.
+        reassuring however the actual destination URL leads to a malicious.
         Asking you to submit <strong>bank account details</strong> via a link
         in emails is very unusual, universities and banks never request sensitive information using this method.
         <br><br>
@@ -131,9 +131,9 @@ const hotspotData = {
 };
 
 /* Feeback content data
-   Defines the feedback shown after each repoonse.
+   Defines the feedback shown after each response.
    Each scenario has three possible responses: click, report, ignore.
-   Feedback dispalys correct or incorrect, and explenation, 
+   Feedback displays correct or incorrect, and explenation, 
    and reinforcement of the secure protective behaviour. */
 
 
@@ -210,7 +210,7 @@ const feedbackData = {
             legitimate university departments would never request this.
             <br><br>
             Reporting this email protects others and yourself 
-            from potential financial ford.`
+            from potential financial fraud.`
             
         },
         ignore: {
@@ -268,8 +268,8 @@ const feedbackData = {
             should be <strong>reported</strong> especially when this sophisticated,
             the spoofed sender domain could be used to fool many other students.
             <br><br>
-            Always report suspicious emails rather that ignoring, 
-            so OT can investigate and protect the wider community.`
+            Always report suspicious emails rather than ignoring, 
+            so IT can investigate and protect the wider community.`
 
         }
     }
