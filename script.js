@@ -1,334 +1,417 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Phishing Awareness Tutorial</title>
+/* Phishing awareness tutorial - script.js
+    This scriptcontrols all interactive behaviour 
+    navigation
+    hotspot click
+    tracking whats been viewed
+    dispalying response 
+    evaluating response and feedback
+    progression */
 
-  <!-- Link to external stylesheet -->
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+    /* Save current screen so refresh does not allow partcipants to restart and correct answer*/
+    function saveProgress(screenId) {
+        sessionStorage.setItem('currentScreen', screenId);
+    }
 
-  <!-- WELCOME SCREEN
-       Shown first before scenario begins.
-       Gives participants a brief intro -->
-  <div id="welcome-screen" class="screen active">
-    <div class="card">
-      <h1>Phishing Awareness Tutorial</h1>
-      <p>
-        In this tutorial you will be shown <strong>three emails</strong>.
-        Your task is to examine each email carefully, click the highlighted
-        elements to learn about phishing indicators, then decide what to do.
-      </p>
-      <p>Each email is more difficult than the last. Please take your time.</p>
-      <button id="start-btn" class="btn-primary">Start Tutorial</button>
-    </div>
-  </div>
+    function resumeProgress() {
+        const saved = sessionStorage.getItem('currentScreen');
+        if (saved) {
+            showScreen(saved);
+        }
+    }
 
 
-  <!-- SCENARIO INTRO SCREENS
-      Scenarios have a brief context screen shown before
-      the email is displayed, explaining setting. -->
+/* Hotspot content data 
+    each hotspot has unique id (data-id HTML), a title and body. */
 
-  <!-- Scenario 1 Intro -->
-  <div id="intro-1" class="screen">
-    <div class="card">
-      <p class="scenario-label">Scenario 1 of 3 — Low Difficulty</p>
-      <h2>IT Password Reset</h2>
-      <p>
-        You have received the following email in your university inbox.
-        Click the <strong>highlighted elements</strong> to examine them,
-        then decide whether to <strong>Click</strong>, <strong>Report</strong>,
-        or <strong>Ignore</strong> the email.
-      </p>
-      <button class="btn-primary next-intro" data-target="scenario-1">View Email</button>
-    </div>
-  </div>
+const hotspotData = {
+    "s1-sender": {
+        title: "suspicious sender address",
+        body: `The sender address is <strong>it-support@northumbria-helpdesk.net</strong>.
+        Your university's real IT department would email you from an <strong>@northumbria.ac.uk</strong> address.
+        The domain <em>northumbria-helpdesk.net</em> is not an official university domain, 
+        this is a common phishing tactic in which attackers register domains that
+        resemble official ones.
+        Remember to always check the full emial address, not just the display name.
+        <br><br>
+        <strong>Protective action</strong> If the email does not match 
+        the university's official email addresses, do not click any links and report the email.`
+    },
 
-  <!-- Scenario 2 Intro -->
-  <div id="intro-2" class="screen">
-    <div class="card">
-      <p class="scenario-label">Scenario 2 of 3 — Medium Difficulty</p>
-      <h2>Financial Aid Notification</h2>
-      <p>
-        You have received the following email in your university inbox.
-        Click the <strong>highlighted elements</strong> to examine them,
-        then decide whether to <strong>Click</strong>, <strong>Report</strong>,
-        or <strong>Ignore</strong> the email.
-      </p>
-      <button class="btn-primary next-intro" data-target="scenario-2">View Email</button>
-    </div>
-  </div>
+    "s1-subject": {
+        title: "Urgency in subject line",
+        body: `Subject line uses the word <strong>URGENT</strong> and states your password will expire in <strong>24 hours</strong>.
+        This creates a false sense of urgency which is one of the most common phishing techniques
+        Attackers used urgency to pressure recipients into a quick response acting without
+        thinking critically, rarely will IT departments send
+        urgent subject demanding action immediately.
+        <br><br>
+        <strong>Protective action</strong>Pause before acting on any email
+        that pressures response immediately. Take time to verify senders 
+        and check with the IT team directly if unsure.`
+    },
 
-  <!-- Scenario 3 Intro -->
-  <div id="intro-3" class="screen">
-    <div class="card">
-      <p class="scenario-label">Scenario 3 of 3 — High Difficulty</p>
-      <h2>Lecturer Communication</h2>
-      <p>
-        You have received the following email in your university inbox.
-        Click the <strong>highlighted elements</strong> to examine them,
-        then decide whether to <strong>Click</strong>, <strong>Report</strong>,
-        or <strong>Ignore</strong> the email.
-      </p>
-      <button class="btn-primary next-intro" data-target="scenario-3">View Email</button>
-    </div>
-  </div>
+    "s1-link": {
+        title: "Suspicious link URL",
+        body: `The link points to <strong>http://northumbria-reset.com</strong>.
+        This is not a university domain. Official university systems use 
+        <strong>https://northumbria.ac.uk</strong> addresses.
+        Also notice that the link uses <strong>http</strong> instead of 
+        <strong>https</strong> meaning its not even using a strong connection.
+        Clicking this link could lead to a fake login page designed to steal credentials.
+        <br><br>
+        <strong>Protective action</strong> Never click password reste links in emails.
+        Go directly to the university website by typing the address
+        in your browser. Report this email to IT immediately.`
+    },
 
+/*   Scenario 2 Hotspots Medium difficulty */
 
-  <!-- SCENARIO SCREENS
-       Each scenario displays an email interface.
-       Hotspot elements are highlighted to click.
-       Response buttons display after all hotspots are viewed. -->
+    "s2-sender": {
+        title: "Spoofed Domain - Look Carefully",
+        body: `The sender address is <strong>financialaid@northurnbria.ac.uk</strong>.
+        At first glance, this looks like a legitimate university address. However, the domain is subtly misspelled as <em>northurnbria</em> instead of <em>northumbria</em>.
+        Replacing the letter <strong>m</strong> with <strong>rn</strong>,
+        which looks very similar in most fonts.
+        This is called <strong>typosquatting</strong> and is used to impersonate trusted organisations.
+        <br><br>
+        <strong>Protective action</strong> Always carefully read sender addresses 
+        character by character especially when asking for sensitive actions.
+        If you have doubts, contact the financial aid office directly using contact
+        details from official university website`
+    },
 
-  <!-- Scenario 1 Email -->
-  <div id="scenario-1" class="screen">
-    <div class="email-container">
+    "s2-link": {
+        title: "Link text does not match destination",
+        body: `The link displays the text <em>"Click here to confirm your details securely"</em>
+        but this text tells you nothing about where the link actually goes.
+        In phishing emails, the text visible in a hyperlink often looks
+        reassuring however the actual destination URL leads to a malicious.
+        Asking you to submit <strong>bank account details</strong> via a link
+        in emails is very unusual, universities and banks never request sensitive information using this method.
+        <br><br>
+        <strong>Protective action</strong> Never enter bank details
+        via a link in email. Contact the financial aid office directly.
+        Hover over the link to reveal the actual destination before clicking.`
 
-      <!-- Email header bar impersonating an email client -->
-      <div class="email-header">
-        <div class="email-field">
-          <span class="field-label">From:</span>
-          <!-- Hotspot: sender address is suspicious -->
-          <span class="hotspot" data-id="s1-sender">
-            it-support@northumbria-helpdesk.net
-          </span>
-        </div>
-        <div class="email-field">
-          <span class="field-label">To:</span>
-          <span>student@northumbria.ac.uk</span>
-        </div>
-        <div class="email-field">
-          <span class="field-label">Subject:</span>
-          <!-- Hotspot: urgent subject line is a red flag -->
-          <span class="hotspot" data-id="s1-subject">
-            URGENT: Your password expires in 24 hours
-          </span>
-        </div>
-        <div class="email-field">
-          <span class="field-label">Date:</span>
-          <span>10 April 2026, 08:43</span>
-        </div>
-      </div>
+    },
 
-      <!-- Email body -->
-      <div class="email-body">
-        <p>Dear Student,</p>
-        <p>
-          Our system has detected that your university account password will
-          expire within <strong>24 hours</strong>. Failure to update your
-          password immediately will result in loss of access to your university
-          systems including email, Blackboard, and the library portal.
-        </p>
-        <p>Please click the link below to reset your password now:</p>
-        <!-- Hotspot: suspicious link -->
-        <p>
-          <span class="hotspot link-hotspot" data-id="s1-link">
-            http://northumbria-reset.com/password-update
-          </span>
-        </p>
-        <p>
-          If you do not reset your password within 24 hours your account
-          will be suspended.
-        </p>
-        <p>Regards,<br/>IT Support Team</p>
-      </div>
+    /* Scenario 3 Hotspots - Hard difficulty */
 
-      <!-- Response buttons — hidden until all hotspots viewed.
-           All buttons use btn-neutral so no colour hints at
-           the correct answer before the participant decides. -->
-      <div class="response-area" id="response-1">
-        <p class="response-prompt">What do you do with this email?</p>
-        <div class="response-buttons">
-          <button class="btn-neutral respond-btn" data-scenario="1" data-choice="click">Click the Link</button>
-          <button class="btn-neutral respond-btn" data-scenario="1" data-choice="report">Report</button>
-          <button class="btn-neutral respond-btn" data-scenario="1" data-choice="ignore">Ignore</button>
-        </div>
-      </div>
+    "s3-sender": {
+        title: "Display Name Spoofing",
+        body: `The email appears to be from <strong>Dr. Sarah Mitchell</strong>,
+        which looks authentic. However, look closely at the actual email address:
+        <strong>s.mitchell@northumbr1a.ac.uk</strong>.
+        The domain contains the number <strong>1</strong> instead of <strong>i</strong>, 
+        shown as <em>northumbr1a</em> instead of <em>northumbria</em>.
+        This is a common spoofing technique. The display name can be set as anything by the sender,
+        the email address itself reveals if the message is genuine.
+        <br><br>
+        <strong>Protective action</strong> Always expand the sender field 
+        to see the full email address. Never trust the display name on its own.
+        If you receive an unexpected document, verify by
+        contacting the sender through an official channel.`
 
-    </div>
-  </div>
+    },
+
+    "s3-link": {
+        title: "Disguised malicious link",
+        body: `The link is displayed as <strong>KV600_Feedback_JSmith.docx</strong>,
+        which looks like a genuine document filename. However, in an email,
+        any text can be made into hyperlinks pointing anywhere.
+        This is a very common technique as it tricks users by 
+        exploiting trust in specific person or context in this case your Module and Name.
+        Clicking this could download malware or direct you to credential stealing log in pages.
+        <br><br>
+        <strong>Protective action</strong> Be skeptical when it comes to unexpected document links even from people you know, 
+        as accounts can be stolen. Verify with the sender using a separate communication channel
+        such as in person or official email. before clicking any links and downloading files.`
+    } 
+
+};
+
+/* Feeback content data
+   Defines the feedback shown after each response.
+   Each scenario has three possible responses: click, report, ignore.
+   Feedback displays correct or incorrect, and explenation, 
+   and reinforcement of the secure protective behaviour. */
 
 
-  <!-- Scenario 2 Email -->
-  <div id="scenario-2" class="screen">
-    <div class="email-container">
+const feedbackData = {
 
-      <div class="email-header">
-        <div class="email-field">
-          <span class="field-label">From:</span>
-          <!-- Hotspot: domain resembles university but isn't -->
-          <span class="hotspot" data-id="s2-sender">
-            financialaid@northurnbria.ac.uk
-          </span>
-        </div>
-        <div class="email-field">
-          <span class="field-label">To:</span>
-          <span>j.smith@northumbria.ac.uk</span>
-        </div>
-        <div class="email-field">
-          <span class="field-label">Subject:</span>
-          <span>Action Required: Financial Aid Payment — Confirm Your Details</span>
-        </div>
-        <div class="email-field">
-          <span class="field-label">Date:</span>
-          <span>10 April 2026, 11:15</span>
-        </div>
-      </div>
+    1: {
+        click: {
+            correct: false,
+            icon: "❌",
+            title: "Incorrect - you clicked the link",
+            message: `Clicking the link in this email would have taken you to a to a fake
+            login page designed to steal credentials.
+            This email contained several clear indicators of phishing:
+            an non-university sender domain, an urgent subject line,
+            and a suspicious link URL.
+            <br><br>
+            The correct action was to <strong>report</strong> this email
+            to your IT department so they can inform others whilst blocking the sender.`
+        },
 
-      <div class="email-body">
-        <p>Dear Jamie,</p>
-        <p>
-          We are pleased to inform you your financial aid payment for
-          the current academic year is ready for processing. To ensure payment on time
-          please confirm your bank account details using the secure portal
-          before <strong>Friday 12 April 2026</strong>.
-        </p>
-        <p>
-          Please use the link below to access the secure confirmation portal:
-        </p>
-        <!-- Hotspot: link text doesn't match actual URL -->
-        <p>
-          <span class="hotspot link-hotspot" data-id="s2-link">
-            Click here to confirm your details securely
-          </span>
-        </p>
-        <p>
-          If you do not confirm your details by the deadline your payment
-          may be delayed by up to 6 weeks.
-        </p>
-        <p>Kind regards,<br/>Student Financial Aid Office<br/>Northumbria University</p>
-      </div>
+        report: {
+            correct: true,
+            icon: "✅",
+            title: "Correct - you reported the email",
+            message: `Well done. This was a phishing email containing multiple clear
+            indicators: a fake sender domain <em>northumbria-helpdesk.net</em>,
+            an urgent subject designed to pressure the recipient into acting quickly,
+            and a suspicious link leading to a non-university domain.
+            <br><br>
+            Reporting phishing emails helps the IT team protect the whole university 
+            by blocking the malicious senders.`
 
-      <!-- All buttons neutral — no colour hints at correct answer -->
-      <div class="response-area" id="response-2">
-        <p class="response-prompt">What do you do with this email?</p>
-        <div class="response-buttons">
-          <button class="btn-neutral respond-btn" data-scenario="2" data-choice="click">Click the Link</button>
-          <button class="btn-neutral respond-btn" data-scenario="2" data-choice="report">Report</button>
-          <button class="btn-neutral respond-btn" data-scenario="2" data-choice="ignore">Ignore</button>
-        </div>
-      </div>
+        },
+        ignore: {
+            correct: false,
+            icon: "⚠️",
+            title: "Partially correct - you ignored the email",
+            message: `Ignoring the email means you didn't click the link, which is good .
+            However, the safest and best action is to <strong>report</strong> the email to 
+            the IT department instead of ignoring it.
+            <br><br>
+            Reporting informs the team so they can investigate, block the sender, and inform 
+            other students who may have received the email.`
 
-    </div>
-  </div>
+        }
+    },
 
+    2: {
+        click: {
+            correct: false,
+            icon: "❌",
+            title: "Incorrect - you clicked the link",
+            message: `This email used a subtly spoofed sender domain
+            <em>northurnbria.ac.uk</em> instead of <em>northumbria.ac.uk</em> 
+            and a vague hyperlink asking for you to submit bank details.
+            Clicking this link could expose your financial information
+            to attackers. Universities and financial institutions should
+            never request bank details through email links.
+            <br><br>
+            The correct action was to <strong>report</strong> this email 
+            and contact the financial aid office directly using official contact 
+            details from the official university website.`
 
-  <!-- Scenario 3 Email -->
-  <div id="scenario-3" class="screen">
-    <div class="email-container">
+        },
 
-      <div class="email-header">
-        <div class="email-field">
-          <span class="field-label">From:</span>
-          <!-- Hotspot: display name looks legitimate but domain is incorrect -->
-          <span class="hotspot" data-id="s3-sender">
-            Dr. Sarah Mitchell &lt;s.mitchell@northumbr1a.ac.uk&gt;
-          </span>
-        </div>
-        <div class="email-field">
-          <span class="field-label">To:</span>
-          <span>j.smith@northumbria.ac.uk</span>
-        </div>
-        <div class="email-field">
-          <span class="field-label">Subject:</span>
-          <span>KV6013 — Assignment Feedback Document</span>
-        </div>
-        <div class="email-field">
-          <span class="field-label">Date:</span>
-          <span>10 April 2026, 14:02</span>
-        </div>
-      </div>
+        report: {
+            correct: true,
+            icon: "✅",
+            title: "Correct - you reported the email",
+            message: `Well done. This email was a sophisticated phishing email 
+            requiring careful inspection to identify. The sender domain
+            contained a subtle typo <em>northurnbria</em>, and the email 
+            asked for you to submit bank details using a vague hyperlink,
+            legitimate university departments would never request this.
+            <br><br>
+            Reporting this email protects others and yourself 
+            from potential financial fraud.`
+            
+        },
+        ignore: {
+            correct: false,
+            icon: "⚠️",
+            title: "Partially correct - you ignored the email",
+            message: `Not clicking the email as the right instinct. However,
+            ignoring the emails is not enough, <strong>reporting</strong> the
+            email to the IT department is the best course of action 
+            so the spoofed domain is investigated and blocked.
+            <br><br>
+            If you are unsure whether it is legitimate, you
+            should contact the financial aid office directly
+            using contact details from the official university website.`
 
-      <div class="email-body">
-        <p>Hi Jamie,</p>
-        <p>
-          I have finished the review of your project submission and have put
-          together detailed feedback notes for you. Please find the
-          document via the shared link below — you will need to sign in
-          with your university credentials to access it.
-        </p>
-        <!-- Hotspot: anchor text looks safe but hides malicious URL -->
-        <p>
-          <span class="hotspot link-hotspot" data-id="s3-link">
-            KV6013_Feedback_JSmith.docx
-          </span>
-        </p>
-        <p>
-          Let me know if you have any questions after reading through.
-        </p>
-        <p>Best,<br/>Dr. Sarah Mitchell<br/>Module Leader, KV6013</p>
-      </div>
+        }
+    },
 
-      <!-- All buttons neutral — no colour hints at correct answer -->
-      <div class="response-area" id="response-3">
-        <p class="response-prompt">What do you do with this email?</p>
-        <div class="response-buttons">
-          <button class="btn-neutral respond-btn" data-scenario="3" data-choice="click">Click the Link</button>
-          <button class="btn-neutral respond-btn" data-scenario="3" data-choice="report">Report</button>
-          <button class="btn-neutral respond-btn" data-scenario="3" data-choice="ignore">Ignore</button>
-        </div>
-      </div>
+    3: {
+        click: {
+            correct: false,
+            icon: "❌",
+            title: "Incorrect - you clicked the link",
+            message: `This was a highly sophisticated phishing email.
+            The sender used display name spoofing to impersonate a real 
+            lecturer, and the link was disguised as a document filename.
+            The actual sender domain <em>northumbr1a.ac.uk</em> 
+            contained a subtle swap of characters, easy to miss.
+            <br><br>
+            When receiving unexpected document links from lecturers,
+            verify using a separate channel before clicking.
+            Report the email immediately to IT.`
 
-    </div>
-  </div>
+        },
+        report: {
+            correct: true,
+            icon: "✅",
+            title: "Correct - you reported the email",
+            message: `Excellent. This was the most difficult scenario, using
+            advanced display name spoofing and a disguised document link.
+            The key indicator were the subtle character substitution
+            in the sender domain <em>northumbr1a.ac.uk</em> and the unexpected
+            nature of the requests.
+            <br><br>
+            In real situations, verify unexpected communications
+            from lecturers or fellow students through a separate channel
+            before clicking links or downloading any files.`
 
+        },
+        ignore: {
+            correct: false,
+            icon: "⚠️",
+            title: "Partially correct - you ignored the email",
+            message: `Not clicking the link was a good instinct. However this email
+            should be <strong>reported</strong> especially when this sophisticated,
+            the spoofed sender domain could be used to fool many other students.
+            <br><br>
+            Always report suspicious emails rather than ignoring, 
+            so IT can investigate and protect the wider community.`
 
-  <!-- FEEDBACK SCREENS
-       Displayed after the participant chooses a response.
-       Explains whether choice was correct and why.
-       One feedback screen per scenario. -->
-  <div id="feedback-1" class="screen">
-    <div class="card" id="feedback-1-content">
-      <!-- Content injected dynamically using script.js -->
-    </div>
-  </div>
+        }
+    }
+};
 
-  <div id="feedback-2" class="screen">
-    <div class="card" id="feedback-2-content">
-    </div>
-  </div>
+/* Screen navigation utility
+hides all screens, shows only screen with 'active' class*/
 
-  <div id="feedback-3" class="screen">
-    <div class="card" id="feedback-3-content">
-    </div>
-  </div>
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+  // Save current screen so refresh returns here
+  saveProgress(id);
+}
 
+/* Hotspot tracking
+tracks which hotspot have been viewed for each scenario.
+The response buttons are only revealed 
+once hotpots have been clicked */
 
-  <!-- POP-UP MODAL
-       Appears when hotspot element is clicked.
-       Content is injected dynamically by script.js based on
-       what hotspot was clicked. -->
-  <div id="modal-overlay" class="hidden">
-    <div id="modal-box">
-      <h3 id="modal-title">Phishing Indicator</h3>
-      <p id="modal-body"></p>
-      <button id="modal-close" class="btn-primary">Got it</button>
-    </div>
-  </div>
+const viewedHotspots = {
+    1: new Set(),
+    2: new Set(),
+    3: new Set()
+};  
 
+const hotspotCounts = {
+    1: 3,
+    2: 2,
+    3: 2
+};
 
-  <!-- COMPLETION SCREEN
-     Displayed after all three scenarios are finished.
-     Contains link to post-tutorial Microsoft Forms questionnaire. -->
-<div id="completion-screen" class="screen">
-  <div class="card">
-    <h2>Tutorial Complete</h2>
-    <p>
-      Well done for completing all three scenarios. Please now complete
-      the post-tutorial questionnaire by clicking the button below.
-    </p>
-    <a href="https://forms.office.com/e/45STSGRgvw" target="_blank">
-      <button class="btn-primary">Complete Post-Tutorial Questionnaire</button>
-    </a>
-  </div>
-</div>
+/* Modal functions
+openModal: display the pop-up overlay with content
+closeModal: hide the pop-up overlay */
 
+function openModal(hotspotId) {
+    const data = hotspotData[hotspotId];
+    if (!data) return;
 
-  <!-- Link to external JavaScript file — added at the end so all
-       HTML elements are loaded before the script runs -->
-  <script src="script.js"></script>
+    document.getElementById('modal-title').innerHTML = data.title;
+    document.getElementById('modal-body').innerHTML = data.body;
+    document.getElementById('modal-overlay').classList.remove('hidden');
+}
 
-</body>
-</html>
+function closeModal() {
+    document.getElementById('modal-overlay').classList.add('hidden');
+}
+
+/* Check if all hotspots have been viewed*/
+
+function checkAllHotspotsViewed(scenarioNum) {
+    if (viewedHotspots[scenarioNum].size >= hotspotCounts[scenarioNum]) {
+        document.getElementById('response-' + scenarioNum).style.display = 'block';
+        document.getElementById('response-' + scenarioNum).scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+/* Show feedback after response is selected */
+
+function showFeedback(scenarioNum, choice) {
+    const fb = feedbackData[scenarioNum][choice];
+    const contentEl = document.getElementById('feedback-' + scenarioNum + '-content');
+
+    if (fb.correct) {
+        contentEl.classList.add('feedback-correct');
+    } else if (choice === 'ignore') {
+        contentEl.classList.add('feedback-partial');
+    } else {
+        contentEl.classList.add('feedback-incorrect');
+    }
+
+    contentEl.innerHTML = `
+        <div class="feedback-icon">${fb.icon}</div>
+        <h2>${fb.title}</h2>
+        <p style="margin-top: 16px;">${fb.message}</p>
+        <button class="btn-primary" id="feedback-next-${scenarioNum}" style="margin-top: 20px;">
+            ${scenarioNum < 3 ? 'Next Scenario' : 'Complete Tutorial'}
+        </button>
+    `;
+
+    showScreen('feedback-' + scenarioNum);
+
+    document.getElementById('feedback-next-' + scenarioNum).addEventListener('click', function () {
+    if (scenarioNum < 3) {
+        showScreen('intro-' + (scenarioNum + 1));
+    } else {
+        window.open('https://forms.office.com/e/45STSGRgvw', '_blank');
+    }
+});
+}
+
+/* Event listeners */
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.getElementById('start-btn').addEventListener('click', function () {
+        showScreen('intro-1');
+    });
+
+    /* View Email buttons on intro screens */
+    document.querySelectorAll('.next-intro').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            showScreen(btn.getAttribute('data-target'));
+        });
+    });
+
+    /* Hotspot click handlers */
+    document.querySelectorAll('.hotspot').forEach(function (hotspot) {
+        hotspot.addEventListener('click', function () {
+            const id = hotspot.getAttribute('data-id');
+
+            openModal(id);
+
+            /* Mark this hotspot as viewed */
+            hotspot.classList.add('viewed');
+            const scenarioNum = parseInt(id.charAt(1));
+
+            /* Record this hotspot as viewed in scenario */
+            viewedHotspots[scenarioNum].add(id);
+
+            /* Check if all hotspots are viewed */
+            checkAllHotspotsViewed(scenarioNum);
+        });
+    });
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+
+    document.getElementById('modal-overlay').addEventListener('click', function (e) {
+        if (e.target === this) closeModal();
+    });
+
+    /* Response button click handlers */
+    document.querySelectorAll('.respond-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const scenario = parseInt(btn.getAttribute('data-scenario'));
+            const choice = btn.getAttribute('data-choice');
+            showFeedback(scenario, choice);
+        });
+    });
+
+    resumeProgress();
+
+});
