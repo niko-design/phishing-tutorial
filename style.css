@@ -192,7 +192,7 @@ body {
 }
 
 
-/* Email body — main content area */
+/* Email body - main content area */
 .email-body {
   padding: 24px;
   line-height: 1.8;
@@ -205,7 +205,7 @@ body {
 }
 
 
-/* Hotspots — clickable elements revealing the pop-ups */
+/* Hotspots - clickable elements revealing the pop-ups */
 .hotspot {
   background-color: #fef9c3;
   border-bottom: 2px dashed #ca8a04;
@@ -233,7 +233,7 @@ body {
 }
 
 
-/* Response area — shown below email once all hotspots viewed */
+/* Response area - shown below email once all hotspots viewed */
 .response-area {
   border-top: 1px solid #e0e0e0;
   padding: 20px 24px;
@@ -254,7 +254,7 @@ body {
 }
 
 
-/* Modal overlay — pop up box when hotspot is clicked */
+/* Modal overlay - pop up box when hotspot is clicked */
 #modal-overlay {
   position: fixed;
   top: 0;
@@ -291,13 +291,13 @@ body {
   margin-bottom: 20px;
 }
 
-/* Utility class hides elements — toggled by JavaScript */
+/* Utility class hides elements - toggled by JavaScript */
 .hidden {
   display: none !important;
 }
 
 
-/* Feedback screens — correct green incorrect red */
+/* Feedback screens - correct green incorrect red */
 .feedback-correct {
   border-left: 5px solid #16a34a;
 }
