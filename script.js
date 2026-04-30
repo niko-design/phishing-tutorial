@@ -377,7 +377,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.getElementById('complete-btn').addEventListener('click', function () {
-    window.open('https://forms.office.com/e/u3nkEG4s9d', '_blank');
+    window.open('https://forms.office.com/e/GWUvkbJ5NP', '_blank');
     showScreen('completion-screen');
 });
 
