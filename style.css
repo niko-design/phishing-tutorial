@@ -314,3 +314,14 @@ body {
   font-size: 2rem;
   margin-bottom: 12px;
 }
+
+/* How to Report screen
+   Card style for each reporting option with 
+   blue left border matching tutorial styling */
+.report-method {
+  background-color: #f8f9fa;
+  border-left: 4px solid #2563eb;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
