@@ -224,7 +224,7 @@
           <span class="field-label">From:</span>
           <!-- Hotspot: display name looks legitimate but domain is incorrect -->
           <span class="hotspot" data-id="s3-sender">
-            Dr. Sarah Mitchell &lt;s.mitchell@northumbr1a.ac.uk&gt;
+            Dr. James Mitchell &lt;j.mitchell@northumbr1a.ac.uk&gt;
           </span>
         </div>
         <div class="email-field">
@@ -258,7 +258,7 @@
         <p>
           Let me know if you have any questions after reading through.
         </p>
-        <p>Best,<br/>Dr. Sarah Mitchell<br/>Module Leader, KV6013</p>
+        <p>Best,<br/>Dr. James Mitchell<br/>Module Leader, KV6013</p>
       </div>
 
       <!-- All buttons neutral - no colour hints at correct answer -->
@@ -309,7 +309,55 @@
   </div>
 
 
-  <!-- COMPLETION SCREEN
+  <!-- HOW TO REPORT SCREEN
+     Displayed after Scenario 3 feedback.
+     Teaches participants how to report phishing emails
+     before redirecting to post-tutorial questionnaire. -->
+<div id="how-to-report" class="screen">
+  <div class="card">
+    <h2>How to Report a Phishing Email</h2>
+    <p>
+      Throughout this tutorial you have been advised to report suspicious
+      emails. Here is exactly how to do that at Northumbria University:
+    </p>
+    <div class="report-method">
+      <h3>Option 1 - Report directly in Outlook</h3>
+      <p>
+        Select the suspicious email, click the three dots
+        <strong>(...)</strong> in the top right corner,
+        select <strong>Report</strong> then
+        <strong>Report Phishing</strong>.
+        This alerts Microsoft and the university IT team simultaneously.
+      </p>
+    </div>
+    <div class="report-method">
+      <h3>Option 2 - Forward to IT Services</h3>
+      <p>
+        Forward the suspicious email to
+        <strong>itservices@northumbria.ac.uk</strong>
+        with the subject line <strong>Suspected Phishing Email</strong>.
+        The IT team will investigate and block the sender if confirmed.
+      </p>
+    </div>
+    <div class="report-method">
+      <h3>Option 3 - Contact IT directly</h3>
+      <p>
+        If you have already clicked a link or entered any details,
+        contact the IT Service Desk immediately in person or by phone
+        so they can secure your account straight away.
+      </p>
+    </div>
+    <p>
+      <strong>Remember:</strong> Never ignore a suspicious email.
+      Reporting protects you and the entire university community.
+    </p>
+    <button class="btn-primary" id="complete-btn">
+      Complete Post-Tutorial Questionnaire
+    </button>
+  </div>
+</div>
+
+<!-- COMPLETION SCREEN
      Displayed after all three scenarios are finished.
      Contains link to post-tutorial Microsoft Forms questionnaire. -->
 <div id="completion-screen" class="screen">
