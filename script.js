@@ -363,7 +363,7 @@ function showFeedback(scenarioNum, choice) {
     if (scenarioNum < 3) {
         showScreen('intro-' + (scenarioNum + 1));
     } else {
-        window.open('https://forms.office.com/e/GWUvkbJ5NP', '_blank');
+        showScreen('how-to-report');
     }
 });
 }
@@ -373,8 +373,13 @@ function showFeedback(scenarioNum, choice) {
 document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('start-btn').addEventListener('click', function () {
-        showScreen('intro-1');
-    });
+    showScreen('intro-1');
+});
+
+document.getElementById('complete-btn').addEventListener('click', function () {
+    window.open('https://forms.office.com/e/u3nkEG4s9d', '_blank');
+    showScreen('completion-screen');
+});
 
     /* View Email buttons on intro screens */
     document.querySelectorAll('.next-intro').forEach(function (btn) {
